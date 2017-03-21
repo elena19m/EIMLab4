@@ -1,5 +1,6 @@
 package ro.pub.cs.systems.eim.lab04.contactsmanager;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.provider.ContactsContract;
@@ -10,7 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+
+import ro.pub.cs.systems.eim.lab04.contactsmanager.*;
 import java.util.ArrayList;
 
 public class ContactsManagerActivity extends AppCompatActivity {
@@ -84,8 +88,10 @@ public class ContactsManagerActivity extends AppCompatActivity {
                 }
                 intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, contactData);
                 startActivity(intent);
+                startActivityForResult(intent, 1);
             } else if (v.getId() == R.id.button3) {
                 //cancel
+                setResult(Activity.RESULT_CANCELED, new Intent());
                 finish();
             }
 
@@ -114,5 +120,15 @@ public class ContactsManagerActivity extends AppCompatActivity {
         show.setOnClickListener(buttonListener);
         save.setOnClickListener(buttonListener);
         cancel.setOnClickListener(buttonListener);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            String phone = intent.getStringExtra("ro.pub.cs.systems.eim.lab04.contactsmanager.PHONE_NUMBER_KEY");
+            if (phone != null) {
+                phoneNumberEditText.setText(phone);
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

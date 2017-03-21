@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import ro.pub.cs.systems.eim.lab03.phonedialer.R;
 import ro.pub.cs.systems.eim.lab03.phonedialer.general.Constants;
@@ -24,6 +25,7 @@ public class PhoneDialerActivity extends AppCompatActivity {
     private ImageButton hangupImageButton;
     private ImageButton backspaceImageButton;
     private Button genericButton;
+    private ImageButton contactsImageButton;
 
     private CallImageButtonClickListener callImageButtonClickListener = new CallImageButtonClickListener();
     private class CallImageButtonClickListener implements View.OnClickListener {
@@ -38,6 +40,21 @@ public class PhoneDialerActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse("tel:" + phoneNumberEditText.getText().toString()));
                 startActivity(intent);
+            }
+        }
+    }
+
+    private ContactsImageButtonClickListener contactsImageButtonClickListener = new ContactsImageButtonClickListener();
+    private class ContactsImageButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            String phoneNumber = phoneNumberEditText.getText().toString();
+            if (phoneNumber.length() > 0) {
+                Intent intent = new Intent("ro.pub.cs.systems.eim.lab04.contactsmanager.intent.action.ContactsManagerActivity");
+                intent.putExtra("ro.pub.cs.systems.eim.lab04.contactsmanager.PHONE_NUMBER_KEY", phoneNumber);
+                startActivityForResult(intent, Constants.CONTACTS_MANAGER_REQUEST_CODE);
+            } else {
+                Toast.makeText(getApplication(), getResources().getString(R.string.phone_error), Toast.LENGTH_LONG).show();
             }
         }
     }

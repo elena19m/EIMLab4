@@ -150,6 +150,12 @@
             android:layout_gravity="center"/>
 
         <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/contacts"
+            android:id="@+id/contacts_button" />
+
+        <ImageButton
             android:id="@+id/hangup_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
